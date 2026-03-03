@@ -1,94 +1,165 @@
-// script.js — smooth scroll and basic dark mode toggle
-document.addEventListener('DOMContentLoaded', () => {
-  // Smooth scroll for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (!href || href === '#') return;
+// CAT-SET Professional SOC & NOC Platform - Script
+document.addEventListener('DOMContentLoaded', async () => {
+  // ==================== PARTICLES.JS CONFIGURATION ====================
+  if (typeof tsParticles !== 'undefined') {
+    await tsParticles.load('particles-container', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#00d4ff' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true, anim: { enable: true, speed: 2 } },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#00d4ff',
+          opacity: 0.2,
+          width: 1,
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: 'none',
+          random: false,
+          straight: false,
+          out_mode: 'out',
+          bounce: false,
+        },
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true,
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 },
+        },
+      },
+      retina_detect: true,
+    });
+  }
+
+  // ==================== SMOOTH SCROLL ====================
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      const href = anchor.getAttribute('href');
+      if (href === '#') return;
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        try { history.replaceState(null, '', href); } catch (err) { /* ignore */ }
-      }
-      // close mobile menu if open
-      const mobile = document.getElementById('mobile-menu');
-      if (mobile && !mobile.classList.contains('translate-x-full')) {
-        mobile.classList.add('translate-x-full');
-        mobile.classList.remove('translate-x-0');
+        target.scrollIntoView({ behavior: 'smooth' });
       }
     });
   });
 
-  // Dark mode toggle
-  const toggle = document.getElementById('theme-toggle');
-  function applyTheme(theme) {
-    if (theme === 'dark') document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-    if (toggle) toggle.textContent = theme === 'dark' ? 'Modo claro' : 'Modo oscuro';
-  }
-
-  const stored = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initial = stored ? stored : (prefersDark ? 'dark' : 'light');
-  applyTheme(initial);
-
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      localStorage.setItem('theme', next);
-    });
-  }
-
-  // Mobile menu toggle
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileClose = document.getElementById('mobile-close');
-  function openMobile() {
-    if (mobileMenu) { mobileMenu.classList.remove('translate-x-full'); mobileMenu.classList.add('translate-x-0'); }
-  }
-  function closeMobile() {
-    if (mobileMenu) { mobileMenu.classList.add('translate-x-full'); mobileMenu.classList.remove('translate-x-0'); }
-  }
-  if (menuBtn) menuBtn.addEventListener('click', openMobile);
-  if (mobileClose) mobileClose.addEventListener('click', closeMobile);
-
-  // Parallax effect for hero image
-  const heroImg = document.getElementById('hero-img');
-  if (heroImg) {
-    let latestScroll = 0;
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      latestScroll = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const movement = latestScroll * 0.2; // slower than scroll
-          heroImg.style.transform = `translateY(${movement}px)`;
-          ticking = false;
-        });
-        ticking = true;
+  // ==================== SCROLL REVEAL ANIMATIONS ====================
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
-    }, { passive: true });
-  }
+    });
+  }, observerOptions);
 
-  // Accordion functionality for FAQ
-  const accButtons = document.querySelectorAll('.accordion-btn');
-  accButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-      const panel = btn.nextElementSibling;
-      if (!panel) return;
-      if (!expanded) {
-        panel.classList.add('accordion-open');
-        // adjust max-height to scrollHeight for smooth open
-        panel.style.maxHeight = panel.scrollHeight + 'px';
+  // Apply scroll reveal to sections and cards
+  document.querySelectorAll('section, .metric-card, .service-card, .comparison-card').forEach(el => {
+    el.classList.add('scroll-reveal');
+    observer.observe(el);
+  });
+
+  // ==================== METRIC COUNTER ANIMATION ====================
+  const countElements = document.querySelectorAll('[data-target]');
+  function animateCounter(element) {
+    const target = parseInt(element.dataset.target);
+    const increment = target / 50;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        element.textContent = target;
+        clearInterval(timer);
       } else {
-        panel.style.maxHeight = 0;
-        panel.classList.remove('accordion-open');
+        element.textContent = Math.floor(current);
+      }
+    }, 30);
+  }
+
+  // Trigger counters when they become visible
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
       }
     });
+  }, { threshold: 0.5 });
+
+  countElements.forEach(el => counterObserver.observe(el));
+
+  // ==================== FAQ ACCORDION ====================
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      const answer = button.nextElementSibling;
+      const icon = button.querySelector('.faq-icon');
+
+      // Close all other items
+      document.querySelectorAll('.faq-question').forEach(otherBtn => {
+        if (otherBtn !== button && otherBtn.getAttribute('aria-expanded') === 'true') {
+          otherBtn.setAttribute('aria-expanded', 'false');
+          otherBtn.nextElementSibling.classList.remove('active');
+          otherBtn.querySelector('.faq-icon').classList.remove('active');
+        }
+      });
+
+      // Toggle current item
+      button.setAttribute('aria-expanded', !isOpen);
+      if (!isOpen) {
+        answer.classList.add('active');
+        icon.classList.add('active');
+      } else {
+        answer.classList.remove('active');
+        icon.classList.remove('active');
+      }
+    });
+  });
+
+  // ==================== CONTACT FORM ====================
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const company = document.getElementById('company').value;
+      const message = document.getElementById('message').value;
+
+      if (name && email && message) {
+        const mailtoLink = `mailto:catseconline@gmail.com?subject=Consulta SOC/NOC de ${name}&body=Nombre: ${name}%0DEmail: ${email}%0DEmpresa: ${company}%0DMensaje: ${message}`;
+        window.location.href = mailtoLink;
+      } else {
+        alert('Por favor completa los campos requeridos.');
+      }
+    });
+  }
+
+  // ==================== SCROLL PARALLAX EFFECT ====================
+  window.addEventListener('scroll', () => {
+    const hero = document.getElementById('hero');
+    if (hero) {
+      const offset = window.scrollY * 0.5;
+      hero.style.transform = `translateY(${offset}px)`;
+    }
   });
 });
+
+// ==================== DARK/LIGHT MODE TOGGLE (OPTIONAL) ====================
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.documentElement.style.colorScheme = prefersDark ? 'dark' : 'light';
+
