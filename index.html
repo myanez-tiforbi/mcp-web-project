@@ -3,72 +3,184 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Asistente de IA — Landing</title>
-    <meta name="description" content="Asistente de IA profesional — soluciones y servicios" />
+    <title>CAT-SET — SOC & NOC Services</title>
+    <meta name="description" content="CAT-SET — Servicios profesionales SOC y NOC para ciberseguridad y operaciones de red" />
     <script>tailwind = { config: { darkMode: 'class' } }</script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .neon-btn {
+        box-shadow: 0 4px 14px rgba(99,102,241,0.25), 0 0 18px rgba(99,102,241,0.15) inset;
+        transition: transform .18s ease, box-shadow .18s ease;
+      }
+      .neon-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(99,102,241,0.28), 0 0 30px rgba(99,102,241,0.2) inset; }
+      .neon-outline { border: 1px solid rgba(99,102,241,0.25); }
+      .mobile-menu-enter { transform: translateX(100%); }
+      .mobile-menu-open { transform: translateX(0%); }
+      /* small parallax smoothing */
+      #hero-img { transform: translateY(0); transition: transform 0.1s linear; }
+      /* Accordion styles */
+      .accordion-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
+      .accordion-btn { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px; }
+      .accordion-btn:hover { background: rgba(99,102,241,0.03); }
+      .accordion-panel { max-height: 0; overflow: hidden; transition: max-height .28s ease, padding .18s ease; padding: 0 14px; }
+      .accordion-open { max-height: 800px; padding: 12px 14px; }
+    </style>
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 leading-relaxed">
-    <header class="bg-white/60 dark:bg-gray-800/60 backdrop-blur sticky top-0 z-50">
-      <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" class="text-xl font-semibold">Asistente de IA</a>
-        <div class="flex items-center gap-4">
-          <a href="#services" class="hover:underline">Servicios</a>
-          <a href="#contact" class="hover:underline">Contacto</a>
-          <button id="theme-toggle" class="ml-3 px-3 py-1 rounded-md border bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-700">Modo oscuro</button>
+    <header class="bg-transparent sticky top-0 z-50">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between backdrop-blur bg-white/30 dark:bg-gray-800/30 rounded-b-lg">
+        <a href="#" class="text-xl font-semibold flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-indigo-400"><path d="M3 12h3l3-9 3 18 3-12 3 6 3-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          CAT-SET
+        </a>
+        <div class="flex items-center gap-3">
+          <div class="hidden md:flex items-center gap-3">
+            <a href="#services" class="neon-btn neon-outline px-3 py-2 rounded-md text-sm bg-gradient-to-r from-cyan-600 to-indigo-600 text-white shadow-lg">Servicios</a>
+            <a href="#contact" class="neon-btn neon-outline px-3 py-2 rounded-md text-sm bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg">Contacto</a>
+          </div>
+          <button id="theme-toggle" class="neon-btn px-3 py-2 rounded-md text-sm bg-white/10 backdrop-blur neon-outline">Modo oscuro</button>
+          <button id="menu-btn" class="md:hidden ml-2 p-2 rounded-md border bg-white/5 neon-outline">☰</button>
         </div>
       </nav>
+      <!-- mobile menu -->
+      <div id="mobile-menu" class="fixed right-0 top-16 w-64 h-[calc(100%-64px)] bg-white/90 dark:bg-gray-900/90 shadow-lg transform translate-x-full transition-transform duration-300">
+        <div class="p-4">
+          <button id="mobile-close" class="mb-4 px-3 py-2 rounded-md border neon-outline">Cerrar</button>
+          <nav class="flex flex-col gap-3">
+            <a href="#services" class="px-3 py-2 rounded-md neon-btn bg-gradient-to-r from-cyan-600 to-indigo-600 text-white">Servicios</a>
+            <a href="#contact" class="px-3 py-2 rounded-md neon-btn bg-gradient-to-r from-indigo-600 to-purple-600 text-white">Contacto</a>
+          </nav>
+        </div>
+      </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-12">
-      <section class="text-center py-12">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Asistente de IA</h1>
-        <p class="max-w-2xl mx-auto text-lg mb-6">Soluciones inteligentes para automatizar tareas, generar contenido y potenciar tu productividad con IA.</p>
-        <a href="#contact" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md">Contáctanos</a>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <!-- Hero -->
+      <section class="relative rounded-lg overflow-hidden mb-8">
+        <img id="hero-img" src="https://images.unsplash.com/photo-1536240462400-3bf3c8cc7c2d?auto=format&fit=crop&w=1600&q=80" alt="cyber security" class="absolute inset-0 w-full h-full object-cover will-change-transform" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/40"></div>
+        <div class="relative z-10 py-20 px-6 text-center">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">CAT-SET</h1>
+          <p class="max-w-3xl mx-auto text-lg text-gray-200 mb-6">SOC 24/7 y NOC especializados en monitoreo, detección y respuesta — protección proactiva para tu infraestructura y operaciones de red.</p>
+          <div class="flex justify-center gap-4">
+            <a href="#contact" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-md">Contáctanos</a>
+            <a href="#services" class="inline-block bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-md">Nuestros servicios</a>
+          </div>
+        </div>
       </section>
 
-      <section id="services" class="py-12">
+      <!-- Services -->
+      <section id="services" class="py-6">
         <h2 class="text-2xl font-bold mb-6">Servicios</h2>
-        <div class="grid gap-6 md:grid-cols-3">
-          <article class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-            <h3 class="font-semibold text-lg mb-2">Automatización</h3>
-            <p class="text-sm">Pipelines y asistentes para reducir trabajo repetitivo.</p>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+            <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=800&q=60" alt="SOC monitoring" class="w-full h-40 object-cover rounded-md mb-4" />
+            <h3 class="font-semibold text-lg mb-2">SOC — Centro de Operaciones de Seguridad</h3>
+            <p class="text-sm">Monitoreo 24/7, detección de amenazas, inteligencia y respuesta ante incidentes.</p>
           </article>
-          <article class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-            <h3 class="font-semibold text-lg mb-2">Generación de Contenido</h3>
-            <p class="text-sm">Textos, resúmenes y soportes creativos adaptados a tu tono.</p>
+
+          <article class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=60" alt="NOC operations" class="w-full h-40 object-cover rounded-md mb-4" />
+            <h3 class="font-semibold text-lg mb-2">NOC — Centro de Operaciones de Red</h3>
+            <p class="text-sm">Supervisión de redes, gestión de incidentes de disponibilidad y soporte proactivo.</p>
           </article>
-          <article class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-            <h3 class="font-semibold text-lg mb-2">Integraciones</h3>
-            <p class="text-sm">Conexión con APIs y herramientas para flujos inteligentes.</p>
+
+          <article class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=60" alt="incident response" class="w-full h-40 object-cover rounded-md mb-4" />
+            <h3 class="font-semibold text-lg mb-2">Respuesta a Incidentes</h3>
+            <p class="text-sm">Análisis forense, contención y recuperación con procedimientos rápidos y documentados.</p>
           </article>
         </div>
       </section>
 
-      <section id="contact" class="py-12">
-        <h2 class="text-2xl font-bold mb-6">Contacto</h2>
-        <form class="max-w-xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <label class="block mb-3">
-            <span class="text-sm">Nombre</span>
-            <input type="text" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" placeholder="Tu nombre" />
-          </label>
-          <label class="block mb-3">
-            <span class="text-sm">Email</span>
-            <input type="email" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" placeholder="tu@ejemplo.com" />
-          </label>
-          <label class="block mb-4">
-            <span class="text-sm">Mensaje</span>
-            <textarea rows="4" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" placeholder="¿En qué podemos ayudar?"></textarea>
-          </label>
-          <div class="text-right">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">Enviar</button>
+      <!-- Features / Why choose -->
+      <section class="py-8">
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+            <h4 class="font-semibold">Cobertura 24/7</h4>
+            <p class="text-sm">Operaciones constantes para minimizar ventanas de exposición.</p>
           </div>
-        </form>
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+            <h4 class="font-semibold">Equipo experto</h4>
+            <p class="text-sm">Analistas SOC y equipos NOC con experiencia en entornos críticos.</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+            <h4 class="font-semibold">Integración</h4>
+            <p class="text-sm">Conectamos con tus herramientas existentes para visibilidad total.</p>
+          </div>
+        </div>
       </section>
+
+      <!-- Contact -->
+      <section id="contact" class="py-8">
+        <h2 class="text-2xl font-bold mb-4">Contacto</h2>
+        <div class="grid gap-6 md:grid-cols-2 items-start">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+            <p class="mb-3">Envía consultas o solicita una evaluación gratuita.</p>
+            <p class="font-medium">Email: <a href="mailto:catseconline@gmail.com" class="text-indigo-600">catseconline@gmail.com</a></p>
+            <p class="mt-4 text-sm text-gray-500">Teléfono y SLA disponibles bajo petición.</p>
+          </div>
+
+          <form class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+            <label class="block mb-3">
+              <span class="text-sm">Nombre</span>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" placeholder="Tu nombre" />
+            </label>
+            <label class="block mb-3">
+              <span class="text-sm">Email</span>
+              <input type="email" value="catseconline@gmail.com" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" />
+            </label>
+            <label class="block mb-4">
+              <span class="text-sm">Mensaje</span>
+              <textarea rows="4" class="mt-1 block w-full rounded-md border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2" placeholder="Describe tu necesidad"></textarea>
+            </label>
+            <div class="text-right">
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
     </main>
 
+    <!-- FAQ -->
+    <section id="faq" class="max-w-6xl mx-auto px-6 py-8">
+      <h2 class="text-2xl font-bold mb-4">Preguntas Frecuentes</h2>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow divide-y">
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span class="font-medium">¿Qué es CAT-SET y qué ofrecen?</span>
+            <span class="text-indigo-500">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p class="text-sm text-gray-600 dark:text-gray-300">CAT-SET provee servicios SOC y NOC con monitoreo 24/7, detección de amenazas y soporte de red.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span class="font-medium">¿Ofrecen respuesta a incidentes?</span>
+            <span class="text-indigo-500">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p class="text-sm text-gray-600 dark:text-gray-300">Sí, contamos con procedimientos de respuesta rápida, análisis forense y mitigación.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span class="font-medium">¿Cómo contacto al equipo?</span>
+            <span class="text-indigo-500">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p class="text-sm text-gray-600 dark:text-gray-300">Puedes escribirnos a <a href="mailto:catseconline@gmail.com" class="text-indigo-600">catseconline@gmail.com</a> para consultas y evaluaciones.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer class="py-6">
-      <div class="max-w-6xl mx-auto px-6 text-center text-sm text-gray-600 dark:text-gray-400">© 2026 Asistente de IA — Diseño limpio y profesional</div>
+      <div class="max-w-6xl mx-auto px-6 text-center text-sm text-gray-600 dark:text-gray-400">© 2026 CAT-SET — SOC & NOC | <a href="mailto:catseconline@gmail.com" class="text-indigo-600">catseconline@gmail.com</a></div>
     </footer>
 
     <script src="script.js"></script>

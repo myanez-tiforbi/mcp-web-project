@@ -1,0 +1,22 @@
+{
+  "projects": [
+    {
+      "name": "Monitorización Corporativa",
+      "description": "Implementación de sensores y dashboards para visibilidad completa de la red.",
+      "status": "active",
+      "url": ""
+    },
+    {
+      "name": "Respuesta a Incidentes - Cliente X",
+      "description": "Análisis forense y contención de brecha con reporte final y recomendaciones.",
+      "status": "closed",
+      "url": ""
+    },
+    {
+      "name": "Integración SIEM",
+      "description": "Conexión de logs y reglas personalizadas para detección avanzada.",
+      "status": "active",
+      "url": ""
+    }
+  ]
+}
